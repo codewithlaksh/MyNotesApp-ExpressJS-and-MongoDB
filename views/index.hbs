@@ -1,0 +1,20 @@
+<div class="container my-3">
+    {{#if notes}}
+    <div class="row">
+        {{#each notes}}
+        <div class="col-md-4">
+            <div class="card card-body my-2" style="width: 18rem;">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">{{truncate this.description 30}}</p>
+                <div>
+                    <a href="/edit/{{this._id}}" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></a>
+                    <a href="/delete/{{this._id}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{else}}
+    <div class="alert alert-secondary">No notes found! Please add your first note...</div>
+    {{/if}}
+</div>
