@@ -106,7 +106,9 @@ router.post('/api/loginuser', async (req, res) => {
                             const payload = {
                                 '_id': user._id
                             }
-                            const token = jwt.sign(payload, process.env.AUTH_SECRET);
+                            const token = jwt.sign(payload, process.env.AUTH_SECRET, {
+                                expiresIn: '24h'
+                            });
                             res.cookie('authToken', token, {
                                 maxAge: 24*60*60*1000,
                                 path: '/'

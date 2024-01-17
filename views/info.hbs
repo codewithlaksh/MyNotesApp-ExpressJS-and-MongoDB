@@ -1,0 +1,17 @@
+<div class="container my-3">
+    <div class="d-flex justify-content-between">
+        <h2>Note info: {{note._id}}</h2>
+
+        <div>
+            <a href="/edit/{{note._id}}" class="btn btn-sm btn-success"><i class="fa fa-pencil"></i></a>
+            <a href="/delete/{{note._id}}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+        </div>
+    </div>
+    <h4>Title</h4>
+    <p>{{note.title}}</p>
+    <h4>Description</h4>
+    <p>{{note.description}}</p>
+    <hr>
+    <p>Updated: {{datetime note.updatedAt}}</p>
+    <p>Created: {{datetime note.createdAt}}</p>
+</div>

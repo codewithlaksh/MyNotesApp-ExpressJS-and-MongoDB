@@ -2,14 +2,35 @@ const express = require('express');
 const fetchuser = require('../middleware/fetchuser');
 const Notes = require('../models/Notes');
 const Users = require('../models/Users');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const router = express.Router();
 
-router.get('/', fetchuser, async (req, res) => {
+router.get('/', async (req, res) => {
     if (!req.cookies['authToken']) {
         res.redirect('/auth/login')
     } else {
-        const notes = await Notes.find({ user: req.user }).lean();
+        const token = req.cookies['authToken'];
+        const user = jwt.verify(token, process.env.AUTH_SECRET);
+        
+        const notes = await Notes.find({ user: user._id }).lean().sort('-createdAt');
         res.render('index', { title: 'Home', notes: notes })
+    }
+})
+
+router.get('/info/:id', async (req, res) => {
+    if (!req.cookies['authToken']) {
+        res.redirect('/auth/login')
+    } else {
+        const note = await Notes.findById(req.params.id).lean();
+        const token = req.cookies['authToken'];
+        const user = jwt.verify(token, process.env.AUTH_SECRET);
+
+        if (user._id.toString() == note.user._id.toString()) {
+            res.render('info', { title: 'Note Info', note: note });
+        } else {
+            res.redirect('/');
+        }
     }
 })
 
